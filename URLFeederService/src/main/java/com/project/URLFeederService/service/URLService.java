@@ -12,7 +12,12 @@ public class URLService {
     @Autowired
     private URLRepository urlRepository;
 
+    @Autowired
+    private KafkaService kafkaService;
+
     public void save(URLEntity urlEntity) {
         urlRepository.save(urlEntity);
+        kafkaService.send("html_topic", urlEntity.getUrl());
     }
+
 }
